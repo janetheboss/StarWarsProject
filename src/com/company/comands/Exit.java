@@ -1,19 +1,18 @@
 package com.company.comands;
 
 import Interfaces.Command;
-import StarWars.Universe;
+import starWars.Universe;
 
 public class Exit implements Command {
     @Override
     public void execute(String[] args) {
-        if (!(Universe.getInstance() == null))
-        {
-            if (args.length != 0)
-            {
-                System.out.println("The command is Exit");
-            } else {
-                System.exit(0);
-            }
+        if (Universe.getInstance() == null) {
+            System.out.println("No file is opened.");
+        } else if (args.length != 0) {
+            System.out.println("The command is exit");
+        } else {
+            System.out.println("Exiting the app.");
+            System.exit(0);
         }
     }
 }

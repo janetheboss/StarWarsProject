@@ -1,10 +1,10 @@
 package com.company.comands;
 
 import Interfaces.Command;
-import StarWars.Universe;
+import starWars.Universe;
 import helpers.UniverseHelp;
 
-public class Promote_jedi implements Command {
+public class PromoteJedi implements Command {
     @Override
     public void execute(String[] args) throws Exception {
         if(!(Universe.getInstance()==null))

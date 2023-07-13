@@ -1,6 +1,4 @@
-package StarWars;
-
-import enums.Rank;
+package starWars;
 
 public class Jedi {
     private String name;
@@ -62,7 +60,6 @@ public class Jedi {
     public Double getStrength() {
         return strength;
     }
-
     public void setStrength(Double strength) {
         this.strength = strength;
     }

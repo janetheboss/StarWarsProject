@@ -4,18 +4,18 @@ import Interfaces.Command;
 import starWars.Universe;
 import helpers.UniverseHelp;
 
-public class RemoveJedi implements Command {
+public class GetStrongestJedi implements Command {
     @Override
     public void execute(String[] args) {
         if(!(Universe.getInstance()==null))
         {
-            if(args.length != 5)
+            if(args.length != 1)
             {
-                System.out.println("removeJedi   <jedi_name> <planet_name>");
+                System.out.println("It's get_strongest_jedi ,<planet_name> ");
             }else
             {
-                UniverseHelp.remove_jedi(args);
+                UniverseHelp.getStrongestJedi(args);
             }
         }else {System.out.println("OPEN THE FILE FIRST");}
     }
-}
+    }

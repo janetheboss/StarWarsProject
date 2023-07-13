@@ -1,15 +1,15 @@
 package com.company.comands;
 
 import Interfaces.Command;
-import StarWars.Universe;
+import starWars.Universe;
 import helpers.UniverseHelp;
 
-public class Create_jedi implements Command {
+public class CreateJedi implements Command {
     @Override
     public void execute(String[] args) {
         if(!(Universe.getInstance()==null))
         {
-            if(args.length != 5)
+            if(args.length != 6)
             {
                 System.out.println("It's create_jedi <planet_name> <jedi_name>  <jedi_rank> <jedi_age>  <saber_color> <jedi_strength>");
             }else

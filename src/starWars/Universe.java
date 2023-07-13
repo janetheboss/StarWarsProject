@@ -1,7 +1,9 @@
-package StarWars;
+package starWars;
+
 import java.util.HashSet;
 
 public class Universe {
+    private String fileName;
     private HashSet<Planets> planets;
     private HashSet<Jedi> jedi_Poppulation;
     private static Universe universe_instance = null;
@@ -49,4 +51,13 @@ public class Universe {
     public static void setUniverse_instance(Universe universe_instance) {
         Universe.universe_instance = universe_instance;
     }
+
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
+
 }

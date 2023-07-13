@@ -1,9 +1,8 @@
 package com.company.comands;
 
 import Interfaces.Command;
-import StarWars.Universe;
+import starWars.Universe;
 import helpers.ColorHelper;
-import helpers.UniverseHelp;
 
 public class GetMostUsedSaberColor implements Command {
     @Override

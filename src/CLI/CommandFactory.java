@@ -4,50 +4,39 @@ import Interfaces.Command;
 import com.company.comands.*;
 
 public abstract class CommandFactory {
-    public static Command receiveCommand(String command)
-    {
-            if(command.equalsIgnoreCase("add_planet"))
-            {
-                return new Add_planet();
-            }
-         else if(command.equalsIgnoreCase("Close"))
-            {
+    public static Command receiveCommand(String command) {
+        switch (command.toLowerCase()) {
+            case "add_planet":
+                return new AddPlanet();
+            case "close":
                 return new CloseCommand();
-            }
-            else if(command.equalsIgnoreCase("create_jedi"))
-            {
-                return new Create_jedi();
-            }
-            else if(command.equalsIgnoreCase("demote_jedi"))
-            {
-                return new Demote_jed();
-            }
-            else if(command.equalsIgnoreCase("Exit"))
-            {
+            case "create_jedi":
+                return new CreateJedi();
+            case "demote_jedi":
+                return new DemoteJedi();
+            case "exit":
                 return new Exit();
-            }
-            else if(command.equalsIgnoreCase("get_strongest_jedi"))
-            {
-                return new Get_strongest_jedi();
-            }
-            else if(command.equalsIgnoreCase("get_youngest_jedi "))
-            {
-                return new Get_youngest_jedi();
-            }
-            else if(command.equalsIgnoreCase("get_most_used_saber_color"))
-            {
+            case "get_strongest_jedi":
+                return new GetStrongestJedi();
+            case "get_youngest_jedi":
+                return new GetYoungestJedi();
+            case "get_most_used_saber_color":
                 return new GetMostUsedSaberColor();
-            }
-            else if(command.equalsIgnoreCase("print "))
-            {
+            case "print":
                 return new Print();
-            }
-            else if(command.equalsIgnoreCase("planet_name")) {
+            case "planet_name":
                 return new PlanetName();
-            }
-            else
-            {
+            case "open":
+                return new Open();
+            case "save":
+                return new Save();
+            case "saveas":
+                return new SaveAs();
+            case "help":
+                return new Help();
+            default:
+                System.out.println("Bad command. Try again or use help.");
                 return null;
-            }
+        }
     }
 }

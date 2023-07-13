@@ -1,7 +1,7 @@
 package helpers;
 
-import StarWars.Jedi;
-import StarWars.Universe;
+import starWars.Jedi;
+import starWars.Universe;
 import enums.Colors;
 import enums.Rank;
 

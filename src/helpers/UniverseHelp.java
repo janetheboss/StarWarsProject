@@ -5,9 +5,8 @@ import starWars.Planets;
 import starWars.Universe;
 import enums.Rank;
 
-import java.util.HashSet;
-import java.util.TreeMap;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class UniverseHelp {
     public static void help() {
@@ -21,25 +20,25 @@ public class UniverseHelp {
     }
 
     public static void create_jedi(String[] arr) {
-        try {
-            String givenPlanet = arr[0];
-            String givenName = arr[1];
-            HashSet<Planets> planets = Universe.getInstance().getPlanets();
-            HashSet<Jedi> jedi = Universe.getInstance().getJedi_Poppulation();
-            if (!planetExist(givenPlanet)) {
-                for (Jedi jedi1 : jedi) {
-                    if (jedi1.getName().equalsIgnoreCase(givenName) && jedi1.getPlanet().getPlanet_name().equalsIgnoreCase(givenPlanet)) {
-                        System.out.println("There already exists such a jedi on this planet");
-                    } else {
-                        jedi.add(new Jedi(givenName, arr[2], Integer.parseInt(arr[3]), arr[4], Double.parseDouble(arr[5]), new Planets(givenPlanet)));
-                        Universe.getInstance().getJedi_Poppulation().addAll(jedi);
-                    }
-                }
-            } else {
-                System.out.println("Such a planet does not Exist");
-            }
-        } catch (Exception e) {
-            System.out.println("Error");
+        String givenPlanet = arr[0];
+        String givenName = arr[1];
+        HashSet<Jedi> jedi = Universe.getInstance().getJedi_Poppulation();
+        if (!planetExist(givenPlanet)) {
+            System.out.println("Such a planet does not Exist");
+
+        }else {
+         Optional<Jedi> foundJedi = jedi.stream()
+                 .filter(existingJedi -> existingJedi.getPlanet().getPlanet_name().equalsIgnoreCase(givenPlanet))
+                 .filter(existingJedi -> existingJedi.getName().equalsIgnoreCase(givenName))
+                 .findAny();
+         if(foundJedi.isPresent()){
+             System.out.println("There already exists such a jedi on this planet");
+         }
+         else {
+             jedi.add(new Jedi(givenName, arr[2], Integer.parseInt(arr[3]), arr[4], Double.parseDouble(arr[5]),
+                     new Planets(givenPlanet)));
+             Universe.getInstance().setJedi_Poppulation(jedi);
+         }
         }
     }
 
@@ -54,32 +53,33 @@ public class UniverseHelp {
     }
 
     public static void add_planet(String[] args) {
-        HashSet<Planets> planets = Universe.getInstance().getPlanets();
         String givenPlanet = args[0];
-        if (!planetExist(givenPlanet)) {
-            planets.add(new Planets(givenPlanet));
-            Universe.getInstance().getPlanets().addAll(planets);
-            System.out.println("Planet was added");
-        } else {
+        if (planetExist(givenPlanet)) {
             System.out.println("Such a planet already exists");
+        } else {
+            Universe.getInstance().getPlanets().add(new Planets(givenPlanet));
+            System.out.println("Planet was added");
         }
     }
 
     public static void remove_jedi(String[] args) {
         HashSet<Jedi> jedi = Universe.getInstance().getJedi_Poppulation();
-        for (Jedi jedi1 : jedi) {
-            String givenName = args[0];
-            String givenPlanet = args[1];
-            if (jedi1.getName().equalsIgnoreCase(givenName) && jedi1.getPlanet().getPlanet_name().equalsIgnoreCase(givenPlanet)) {
-                Universe.getInstance().getJedi_Poppulation().remove(jedi1);
-                System.out.println("The Jedi" + givenName + "has been removed.");
-            } else {
-                System.out.println("The jedi" + givenName + "has not been found");
-            }
+        String givenName = args[0];
+        String givenPlanet = args[1];
+        Optional<Jedi> foundJedi = jedi.stream()
+                .filter(jediToRemove -> jediToRemove.getName().equalsIgnoreCase(givenName))
+                .filter(jediToRemove -> jediToRemove.getPlanet().getPlanet_name().equalsIgnoreCase(givenPlanet))
+                .findAny();
+        if(foundJedi.isPresent()){
+            Universe.getInstance().getJedi_Poppulation().remove(foundJedi.get());
+            System.out.println("The Jedi" + givenName + "has been removed.");
+        }
+        else{
+            System.out.println("The jedi" + givenName + "has not been found");
         }
     }
 
-    public static String getPreviousRank(String rank) {
+    private static String getPreviousRank(String rank) {
         switch (rank.toUpperCase()) {
             case "INITIATE":
                 return "YOUNGLING";
@@ -100,7 +100,7 @@ public class UniverseHelp {
         }
     }
 
-    public static String getNextRank(String rank) {
+    private static String getNextRank(String rank) {
         switch (rank.toUpperCase()) {
             case "YOUNGLING":
                 return "INITIATE";
@@ -122,104 +122,105 @@ public class UniverseHelp {
     }
 
 
-    public static double multiplier(double multiplier, double power) throws Exception {
+    private static double multiplier(double multiplier, double power) throws Exception {
         if (multiplier <= 0) {
             throw new Exception("Multiplier can't be 0 or lower");
         }
 
-        return power = power / multiplier;
+        return power / multiplier;
     }
 
-    public static double multiplierPromote(double multiplier, double power) throws Exception {
+    private static double multiplierPromote(double multiplier, double power) throws Exception {
         if (multiplier <= 0) {
             throw new Exception("Multiplier can't be 0 or lower");
         }
 
-        return power = power * multiplier;
+        return power * multiplier;
     }
 
     public static void demote_jedi(String[] args) throws Exception {
         HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
         String name = args[0];
-        for (Jedi jedi : jedis) {
-            if (jedi.getName().equalsIgnoreCase(jedi.getName())) {
-                if (jedi.getJedi_rank().equalsIgnoreCase(Rank.YOUNGLING.name())) {
-                    System.out.println(jedi.getName() + " is already at the lowest rank");
-                } else {
-                    jedi.setJedi_rank(getPreviousRank(jedi.getJedi_rank()));
-                    jedi.setStrength(multiplier(Double.parseDouble(args[1]), jedi.getStrength()));
-                    System.out.println(jedi.getName() + " has been demoted to " + jedi.getJedi_rank());
-                    Universe.getInstance().setJedi_Poppulation(jedis);
-                }
+        Optional<Jedi> foundJedi = jedis.stream().filter(jedi -> jedi.getName().equalsIgnoreCase(name)).findAny();
+        if(!foundJedi.isPresent()){
+            System.out.println("No Jedi with the name " + name + " was found.");
+        }
+        else {
+            if(foundJedi.get().getJedi_rank().equalsIgnoreCase(Rank.YOUNGLING.name())){
+                System.out.println(name + " is already at the lowest rank");
+            } else {
+                Jedi jedi = foundJedi.get();
+                Universe.getInstance().getJedi_Poppulation().remove(jedi);
+                jedi.setJedi_rank(getPreviousRank(jedi.getJedi_rank()));
+                jedi.setStrength(multiplier(Double.parseDouble(args[1]), jedi.getStrength()));
+                System.out.println(jedi.getName() + " has been demoted to " + jedi.getJedi_rank());
+                Universe.getInstance().getJedi_Poppulation().add(jedi);
             }
-            System.out.println("No Jedi with the name " + jedi.getName() + " was found.");
         }
     }
 
-    public static void promote_jedi(String[] args)
-            throws Exception {
+    public static void promote_jedi(String[] args) throws Exception {
         HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
         String name = args[0];
-        for (Jedi jedi : jedis) {
-            if (jedi.getName().equalsIgnoreCase(name)) {
-                if (jedi.getJedi_rank().equalsIgnoreCase(Rank.MASTER.name())) {
-                    System.out.println(jedi.getName() + " is already at the highest rank");
-                } else {
-                    jedi.setJedi_rank(getNextRank(jedi.getJedi_rank()));
-                    jedi.setStrength(multiplierPromote(Double.parseDouble(args[1]), jedi.getStrength()));
-                    System.out.println(jedi.getName() + " has been promoted to " + jedi.getJedi_rank());
-                    Universe.getInstance().setJedi_Poppulation(jedis);
-                }
+        Optional<Jedi> foundJedi = jedis.stream().filter(jedi -> jedi.getName().equalsIgnoreCase(name)).findAny();
+        if(!foundJedi.isPresent()){
+            System.out.println("No Jedi with the name " + name + " was found.");
+        }
+        else {
+            if(foundJedi.get().getJedi_rank().equalsIgnoreCase(Rank.MASTER.name())){
+                System.out.println(name + " is already at the highest rank");
+            } else {
+                Jedi jedi = foundJedi.get();
+                Universe.getInstance().getJedi_Poppulation().remove(jedi);
+                jedi.setJedi_rank(getNextRank(jedi.getJedi_rank()));
+                jedi.setStrength(multiplierPromote(Double.parseDouble(args[1]), jedi.getStrength()));
+                System.out.println(jedi.getName() + " has been promoted to " + jedi.getJedi_rank());
+                Universe.getInstance().getJedi_Poppulation().add(jedi);
             }
-            System.out.println("No Jedi with the name " + jedi.getName() + " was found.");
         }
     }
 
     public static void getStrongestJedi(String[] args) {
-        HashSet<Planets> planets = Universe.getInstance().getPlanets();
         HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
         String planet = args[0];
-        String strongestJedi = null;
-        double maxPower = 0;
-        for (Jedi jedi : jedis) {
-            if (jedi.getPlanet().getPlanet_name().equalsIgnoreCase(planet)) {
-                if (jedi.getStrength() > maxPower) {
-                    strongestJedi = jedi.getName();
-                    maxPower = jedi.getStrength();
-
-                }
-            }
+        if(!planetExist(planet)){
+            System.out.println("No such planet");
+        }else {
+           Optional<Jedi> foundStrongestJedi = jedis.stream()
+                   .filter(jedi -> jedi.getPlanet().getPlanet_name().equalsIgnoreCase(planet))
+                   .max(Comparator.comparing(Jedi::getStrength));
+           if(foundStrongestJedi.isPresent()){
+               Jedi strongestJedi = foundStrongestJedi.get();
+               System.out.println("The strongest on this planet is : " + strongestJedi.getName()
+                       + " with the strength of : " + strongestJedi.getStrength());
+           }
+            System.out.println("There are no Jedi on this planet");
         }
-        System.out.println("The strongest on this planet is : " + strongestJedi + " with the stremgth of : " + maxPower);
     }
 
     public static void getYoungestJedi(String[] args) {
         HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
-        HashSet<Planets> planets = Universe.getInstance().getPlanets();
         String planet = args[0];
         String rank = args[1];
-        String youngestJediName = null;
-        int youngestJediAge = Integer.MAX_VALUE;
-
-        TreeMap<Integer, Jedi> jedisByAge = new TreeMap<>();
-
-        for (Jedi jedi : jedis) {
-            if (jedi.getPlanet().getPlanet_name().equalsIgnoreCase(planet)
-                    && jedi.getJedi_rank().equalsIgnoreCase(rank)) {
-                int age = jedi.getJedi_age();
-                if (age < youngestJediAge) {
-                    youngestJediAge = age;
-                    youngestJediName = jedi.getName();
-                }
-                jedisByAge.put(age, jedi);
+        if(!planetExist(planet)){
+            System.out.println("No such planet");
+        }else {
+            List<Jedi> foundYoungestJedis = jedis.stream()
+                    .filter(jedi -> jedi.getPlanet().getPlanet_name().equalsIgnoreCase(planet))
+                    .filter(jedi -> jedi.getJedi_rank().equalsIgnoreCase(rank))
+                    .sorted(Comparator.comparingInt(Jedi::getJedi_age))
+                    .collect(Collectors.collectingAndThen(Collectors.toList(), jedisList -> {
+                        int youngestAge = jedisList.get(0).getJedi_age();
+                        return jedisList.stream()
+                                .filter(jedi -> jedi.getJedi_age() == youngestAge)
+                                .collect(Collectors.toList());
+                    }));
+            if(foundYoungestJedis.isEmpty()){
+                System.out.println("No jedi on this planet");
+            }else{
+                System.out.println("Youngest Jedi on the planet:"+ foundYoungestJedis);
             }
         }
-
-        if (jedisByAge.size() > 1) {
-            youngestJediName = jedisByAge.firstEntry().getValue().getName();
-        }
-
-        System.out.println("The youngest Jedi is " + youngestJediName);
     }
 
     public static void print(String[] args) {
@@ -240,22 +241,22 @@ public class UniverseHelp {
         }
     }
 
-    public static void planetName(String[] args) {
-        HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
-        HashSet<Planets> planets = Universe.getInstance().getPlanets();
-        TreeSet<String> jediNames = new TreeSet<>();
-
-        for (Planets planet : planets) {
-            for (Jedi jedi : jedis) {
-                if (jedi.getPlanet().equals(planet)) {
-                    jediNames.add(jedi.getName());
-
-                }
-            }
-        }
-        for (String jedi : jediNames) {
-            jedi.toString();
-        }
-    }
+//    public static void planetName(String[] args) {
+//        HashSet<Jedi> jedis = Universe.getInstance().getJedi_Poppulation();
+//        HashSet<Planets> planets = Universe.getInstance().getPlanets();
+//        TreeSet<String> jediNames = new TreeSet<>();
+//
+//        for (Planets planet : planets) {
+//            for (Jedi jedi : jedis) {
+//                if (jedi.getPlanet().equals(planet)) {
+//                    jediNames.add(jedi.getName());
+//
+//                }
+//            }
+//        }
+//        for (String jedi : jediNames) {
+//            System.out.println(jedi);
+//        }
+//    }
 }
 

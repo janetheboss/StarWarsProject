@@ -14,8 +14,8 @@ import java.util.stream.Collectors;
 public class PlanetManager {
 
     public static boolean planetExist(String planetName) {
-        HashSet<Planets> planets = Universe.getInstance().getPlanets();
-        for (Planets planet : planets) {
+        HashSet<Planet> planets = Universe.getInstance().getPlanets();
+        for (Planet planet : planets) {
             if (planetName.equalsIgnoreCase(planet.getPlanetName())) {
                 return true;
             }
@@ -28,7 +28,7 @@ public class PlanetManager {
         if (planetExist(givenPlanet)) {
             System.out.println("Such a planet already exists");
         } else {
-            Universe.getInstance().getPlanets().add(new Planets(givenPlanet));
+            Universe.getInstance().getPlanets().add(new Planet(givenPlanet));
             System.out.println("Planet was added");
         }
     }

@@ -1,6 +1,5 @@
 package com.company.jedi;
 
-import com.company.planet.Planets;
 import com.company.universe.Universe;
 
 import java.util.HashSet;

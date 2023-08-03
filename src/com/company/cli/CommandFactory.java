@@ -19,8 +19,8 @@ public abstract class CommandFactory {
                 return new GetStrongestJedi();
             case "get_youngest_jedi":
                 return new GetYoungestJedi();
-//            case "get_most_used_saber_color":
-//                return new GetMostUsedSaberColor();
+            case "get_most_used_saber_color":
+                return new GetMostUsedSaberColor();
             case "print":
                 return new Print();
             case "planet_name":

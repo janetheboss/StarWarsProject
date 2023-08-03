@@ -1,9 +1,9 @@
 package com.company.planet;
 
-public class Planets {
+public class Planet {
     private String planetName;
 
-    public Planets(String planetName) {
+    public Planet(String planetName) {
         this.planetName = planetName;
     }
 

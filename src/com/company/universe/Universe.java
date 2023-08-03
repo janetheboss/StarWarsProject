@@ -1,13 +1,13 @@
 package com.company.universe;
 
 import com.company.jedi.Jedi;
-import com.company.planet.Planets;
+import com.company.planet.Planet;
 
 import java.util.HashSet;
 
 public class Universe {
     private String fileName;
-    private HashSet<Planets> planets;
+    private HashSet<Planet> planets;
     private HashSet<Jedi> jedi_Poppulation;
     private static Universe universe_instance = null;
     private Universe ()
@@ -39,11 +39,11 @@ public class Universe {
         return universe_instance;
     }
 
-    public HashSet<Planets> getPlanets() {
+    public HashSet<Planet> getPlanets() {
         return planets;
     }
 
-    public void setPlanets(HashSet<Planets> planets) {
+    public void setPlanets(HashSet<Planet> planets) {
         this.planets = planets;
     }
 

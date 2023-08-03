@@ -1,7 +1,6 @@
 package com.company.command;
 
 import com.company.cli.Command;
-import com.company.jedi.JediManager;
 import com.company.universe.Universe;
 import com.company.planet.PlanetManager;
 

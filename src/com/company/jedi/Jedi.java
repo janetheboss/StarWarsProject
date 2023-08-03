@@ -1,29 +1,29 @@
 package com.company.jedi;
 
-import com.company.planet.Planets;
+import com.company.planet.Planet;
 
 public class Jedi {
     private String name;
     private JediRank rank;
     private int age;
-    private String saber_color;
+    private JediLightSaberColor saberColor;
     private Double strength;
-    private Planets planet;
+    private Planet planet;
 
-    public Jedi(String name, JediRank rank, int age, String saber_color, Double strength, Planets planet) {
+    public Jedi(String name, JediRank rank, int age, JediLightSaberColor saberColor, Double strength, Planet planet) {
         this.name = name;
         this.rank = rank;
         this.age = age;
-        this.saber_color = saber_color;
+        this.saberColor = saberColor;
         this.strength = strength;
         this.planet = planet;
     }
 
-    public Planets getPlanet() {
+    public Planet getPlanet() {
         return planet;
     }
 
-    public void setPlanet(Planets planet) {
+    public void setPlanet(Planet planet) {
         this.planet = planet;
     }
 
@@ -51,12 +51,12 @@ public class Jedi {
         this.age = age;
     }
 
-    public String getSaber_color() {
-        return saber_color;
+    public JediLightSaberColor getSaberColor() {
+        return saberColor;
     }
 
-    public void setSaber_color(String saber_color) {
-        this.saber_color = saber_color;
+    public void setSaberColor(JediLightSaberColor saberColor) {
+        this.saberColor = saberColor;
     }
 
     public Double getStrength() {

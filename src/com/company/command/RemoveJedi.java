@@ -7,11 +7,11 @@ import com.company.universe.Universe;
 public class RemoveJedi implements Command {
     @Override
     public void execute(String[] args) {
-        if(!(Universe.getInstance()==null))
+        if(Universe.getUniverse_instance()!=null)
         {
-            if(args.length != 5)
+            if(args.length != 2)
             {
-                System.out.println("removeJedi   <jedi_name> <planet_name>");
+                System.out.println("remove_jedi <jedi_name> <planet_name>");
             }else
             {
                 JediManager.removeJedi(args);

@@ -7,8 +7,6 @@ public abstract class CommandFactory {
         switch (command.toLowerCase()) {
             case "add_planet":
                 return new AddPlanet();
-            case "close":
-                return new CloseCommand();
             case "create_jedi":
                 return new CreateJedi();
             case "demote_jedi":
@@ -23,17 +21,23 @@ public abstract class CommandFactory {
                 return new GetMostUsedSaberColor();
             case "print":
                 return new Print();
-            case "planet_name":
+            case "":
                 return new PlanetName();
             case "open":
                 return new Open();
-//            case "save":
-//                return new Save();
-//            case "saveas":
-//                return new SaveAs();
+            case "save":
+                return new Save();
+            case "saveas":
+                return new SaveAs();
             case "help":
                 return new Help();
-            default:
+            case "close":
+                return new Close();
+            case "promote_jedi":
+                return new PromoteJedi();
+            case "remove_jedi":
+                return new RemoveJedi();
+                default:
                 System.out.println("Bad command. Try again or use help.");
                 return null;
         }

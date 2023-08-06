@@ -64,7 +64,7 @@ public class JediManager {
             System.out.println("The Jedi" + givenName + "has been removed.");
         }
         else{
-            System.out.println("The jedi" + givenName + "has not been found");
+            System.out.println("The jedi " + givenName + "has not been found");
         }
     }
 
@@ -97,7 +97,7 @@ public class JediManager {
             System.out.println("No Jedi with the name " + name + " was found.");
         }
         else {
-            if(foundJedi.get().getRank().equals(JediRank.MASTER)){
+            if(foundJedi.get().getRank().equals(JediRank.GRAND_MASTER)){
                 System.out.println(name + " is already at the highest rank");
             } else {
                 Jedi jedi = foundJedi.get();
@@ -123,8 +123,9 @@ public class JediManager {
                 Jedi strongestJedi = foundStrongestJedi.get();
                 System.out.println("The strongest on this planet is : " + strongestJedi.getName()
                         + " with the strength of : " + strongestJedi.getStrength());
+            }else {
+                System.out.println("There are no Jedi on this planet");
             }
-            System.out.println("There are no Jedi on this planet");
         }
     }
 
@@ -149,7 +150,8 @@ public class JediManager {
             if(foundYoungestJedis.isEmpty()){
                 System.out.println("No jedi on this planet");
             }else{
-                System.out.println("Youngest Jedi on the planet:"+ foundYoungestJedis);
+                System.out.println("Youngest Jedi on the planet:");
+                PlanetManager.getJedInfo(foundYoungestJedis);
             }
         }
     }
@@ -252,57 +254,24 @@ public class JediManager {
         String planetName = args[0];
         String jediRank = args[1];
 
-        long green = jedis.stream()
+        Map<JediLightSaberColor, Long> saberJediRelation = jedis.stream()
                 .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
                 .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Green)).count();
-        long blue =  jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Blue)).count();
-        long yellow = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Yellow)).count();
-        long purple = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter((jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Purple))).count();
-        long red = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Red)).count();
-        long cyan = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Cyan)).count();
-        long white = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.White)).count();
-        long orange = jedis.stream()
-                .filter(jedi -> jedi.getPlanet().getPlanetName().equalsIgnoreCase(planetName))
-                .filter(jedi -> jedi.getRank().getName().equalsIgnoreCase(jediRank))
-                .filter(jedi -> jedi.getSaberColor().equals(JediLightSaberColor.Orange)).count();
+                .collect(Collectors.groupingBy(Jedi::getSaberColor, Collectors.counting()));
 
-        Map<JediLightSaberColor, Long> saberJediRelation = new HashMap<>();
 
-        saberJediRelation.put(JediLightSaberColor.Green, green);
-        saberJediRelation.put(JediLightSaberColor.Blue, blue);
-        saberJediRelation.put(JediLightSaberColor.Yellow, yellow);
-        saberJediRelation.put(JediLightSaberColor.Purple, purple);
-        saberJediRelation.put(JediLightSaberColor.Red, red);
-        saberJediRelation.put(JediLightSaberColor.Cyan, cyan);
-        saberJediRelation.put(JediLightSaberColor.White, white);
-        saberJediRelation.put(JediLightSaberColor.Orange, orange);
-
-        Optional<JediLightSaberColor> color = saberJediRelation.keySet()
+        Optional<Map.Entry<JediLightSaberColor, Long>> maxEntry = saberJediRelation.entrySet()
                 .stream()
-                .max(Comparator.comparingLong(Enum::ordinal));
+                .max(Comparator.comparingLong(Map.Entry::getValue));
 
-        String saberColor = color.get().name();
 
-        System.out.println("Most used saber color on "+ planetName +" with " + jediRank + " rank is " + saberColor);
+        JediLightSaberColor enumWithBiggestCount = maxEntry.map(Map.Entry::getKey).orElse(null);
+
+        if (enumWithBiggestCount != null) {
+            System.out.println("The saber color with the biggest count of Jedi: " + enumWithBiggestCount);
+        } else {
+            System.out.println("No Jedi found for the given planet and rank.");
+        }
 
     }
 }

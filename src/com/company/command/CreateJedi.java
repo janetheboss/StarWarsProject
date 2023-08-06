@@ -7,7 +7,7 @@ import com.company.universe.Universe;
 public class CreateJedi implements Command {
     @Override
     public void execute(String[] args) {
-        if(!(Universe.getInstance()==null))
+        if(Universe.getUniverse_instance()!=null)
         {
             if(args.length != 6)
             {

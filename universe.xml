@@ -1,0 +1,39 @@
+<Universe>
+    <Planets>
+        <Planet>
+            <Name>Tatooine</Name>
+        </Planet>
+        <Planet>
+            <Name>Coruscant</Name>
+        </Planet>
+        <Planet>
+            <Name>Alderaan</Name>
+        </Planet>
+    </Planets>
+    <JediPopulation>
+        <Jedi>
+            <Name>Obi-Wan Kenobi</Name>
+            <Rank>Master</Rank>
+            <Age>35</Age>
+            <SaberColor>Blue</SaberColor>
+            <Strength>9.5</Strength>
+            <Planet>Tatooine</Planet>
+        </Jedi>
+        <Jedi>
+            <Name>Anakin Skywalker</Name>
+            <Rank>Padawan</Rank>
+            <Age>22</Age>
+            <SaberColor>Blue</SaberColor>
+            <Strength>8.7</Strength>
+            <Planet>Tatooine</Planet>
+        </Jedi>
+        <Jedi>
+            <Name>Yoda</Name>
+            <Rank>Master</Rank>
+            <Age>900</Age>
+            <SaberColor>Green</SaberColor>
+            <Strength>10.0</Strength>
+            <Planet>Coruscant</Planet>
+        </Jedi>
+    </JediPopulation>
+</Universe>

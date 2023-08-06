@@ -11,7 +11,7 @@ public class Print implements Command {
             System.out.println("No file is open.");
             return;
         }
-        if (args.length != 0) {
+        if (args.length != 1) {
             System.out.println("The command is Print <planet_name/jedi_name>");
         } else {
             PlanetManager.printInfo(args);

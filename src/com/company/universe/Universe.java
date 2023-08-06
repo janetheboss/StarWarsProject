@@ -1,5 +1,6 @@
 package com.company.universe;
 
+import com.company.io.XmlRead;
 import com.company.jedi.Jedi;
 import com.company.planet.Planet;
 
@@ -7,22 +8,31 @@ import java.util.HashSet;
 
 public class Universe {
     private String fileName;
-    private HashSet<Planet> planets;
-    private HashSet<Jedi> jedi_Poppulation;
+    private HashSet<Planet> planets = new HashSet<>();
+    private HashSet<Jedi> jedi_Poppulation = new HashSet<>();
     private static Universe universe_instance = null;
-    private Universe ()
-    {
-    }
-    public static Universe getInstance()
-    {
-        if(universe_instance == null)
-        {
+
+    private Universe() {}
+
+    public static Universe getInstance() {
+        if (universe_instance == null) {
             universe_instance = new Universe();
         }
         return universe_instance;
     }
-    public void close ()
-    {
+
+    public static Universe getUniverse_instance() {
+        return universe_instance;
+    }
+
+    public void readFromXml(String fileName) {
+        this.fileName = fileName;
+        System.out.println(fileName);
+        XmlRead xmlRead = new XmlRead();
+        xmlRead.readXmlFile(fileName);
+    }
+
+    public void close() {
         universe_instance = null;
     }
 
@@ -34,11 +44,6 @@ public class Universe {
         this.jedi_Poppulation = jedi_Poppulation;
     }
 
-    public Universe getuniverse_instance()
-    {
-        return universe_instance;
-    }
-
     public HashSet<Planet> getPlanets() {
         return planets;
     }
@@ -47,20 +52,7 @@ public class Universe {
         this.planets = planets;
     }
 
-    public static Universe getUniverse_instance() {
-        return universe_instance;
-    }
-
-    public static void setUniverse_instance(Universe universe_instance) {
-        Universe.universe_instance = universe_instance;
-    }
-
     public String getFileName() {
         return fileName;
     }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
-    }
-
 }

@@ -9,7 +9,7 @@ public class PlanetName implements Command {
     public void execute(String[] args) {
             if(!(Universe.getInstance()==null))
             {
-                if(args.length != 1)
+                if(args.length != 2)
                 {
                     System.out.println("It's <planet_name> <planet_name> ");
                 }else

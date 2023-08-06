@@ -7,9 +7,9 @@ import com.company.universe.Universe;
 public class PromoteJedi implements Command {
     @Override
     public void execute(String[] args) throws Exception {
-        if(!(Universe.getInstance()==null))
+        if(Universe.getUniverse_instance()!=null)
         {
-            if(args.length != 1)
+            if(args.length != 2)
             {
                 System.out.println("It's promote_jedi <jedi_name> <multiplier>");
             }else

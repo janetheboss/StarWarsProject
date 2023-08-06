@@ -8,7 +8,8 @@ public class Exit implements Command {
     public void execute(String[] args) {
         if (Universe.getInstance() == null) {
             System.out.println("No file is opened.");
-        } else if (args.length != 0) {
+        } else
+            if (args.length != 1) {
             System.out.println("The command is exit");
         } else {
             System.out.println("Exiting the app.");

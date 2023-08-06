@@ -59,7 +59,7 @@ public class PlanetManager {
         getJedInfo(jedis3);
     }
 
-    private static void getJedInfo(List<Jedi> jedis3) {
+    public static void getJedInfo(List<Jedi> jedis3) {
         for (Jedi jedi: jedis3){
             System.out.println("Jedi Name: "+ jedi.getName());
             System.out.println("Jedi Age: " + jedi.getAge());
